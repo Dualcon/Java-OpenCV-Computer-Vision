@@ -16,4 +16,35 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  
+  <!-- Log4j -->
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.16</version>
+	</dependency>
+	
+	<!-- Apache commons -->
+	<dependency>
+	<groupId>commons-io</groupId>
+	<artifactId>commons-io</artifactId>
+	<version>2.4</version>
+</dependency>
+
+<!-- JavaCV Lib -->
+	<dependency>
+	<groupId>org.bytedeco</groupId>
+<artifactId>javacv</artifactId>
+<version>1.1</version>
+</dependency>
+
+<!-- WikiDreams file utils -->
+<dependency>
+<groupId>Java-FileUtils</groupId>
+  <artifactId>Java-FileUtils</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  
+  </dependencies>
 </project>
