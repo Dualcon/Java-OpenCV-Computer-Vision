@@ -66,16 +66,15 @@ public class Feature2DManager {
 		return matGray;	
 	}
 
-	public static Feature2DData detect(String img) {
-		Mat mat = Imgcodecs.imread(img);
+	public static Feature2DData detect(File image) {
+		Mat mat = Imgcodecs.imread(image.getAbsolutePath());
 		FeatureDetector detector = FeatureDetector.create(FeatureDetector.ORB);
 		DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.ORB);
 		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 		Mat descriptors = new Mat();
 		detector.detect(mat, keypoints);
 		extractor.compute(mat, keypoints, descriptors);
-		System.out.println("keypoints: " + keypoints.toArray().length);
-		System.out.println("descriptors:" + descriptors);
+		System.out.println("Keypoints: " + keypoints.toArray().length + " Descriptors: " + descriptors);
 		return new Feature2DData(keypoints, descriptors);
 	}
 
@@ -115,7 +114,7 @@ public class Feature2DManager {
 			//System.out.println(String.format(i + " match distance best : %s", dist));
 			if (dist < threshold) {
 				bestMatches.add(matches.toList().get(i));
-				System.out.println(String.format(i + " best match added : %s", dist));
+				//System.out.println(String.format(i + " best match added : %s", dist));
 			}
 		}
 
@@ -124,7 +123,9 @@ public class Feature2DManager {
 		return matchesFiltered;
 	}
 
-	public static Mat drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2) {
+	public static Mat drawMatches(File image1, MatOfKeyPoint keypoints1, File image2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2) {
+		Mat img1 = Imgcodecs.imread(image1.getAbsolutePath());
+		Mat img2 = Imgcodecs.imread(image2.getAbsolutePath());
 		Mat outImg = new Mat();
 		Features2d.drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, new Scalar(0, 255, 0), new Scalar(0, 0, 255), new MatOfByte(), Features2d.NOT_DRAW_SINGLE_POINTS);
 		return outImg;
