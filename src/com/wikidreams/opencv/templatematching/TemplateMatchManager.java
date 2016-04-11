@@ -9,6 +9,12 @@ import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * @author WIT Software - Daniel Vieira
+ * @version 1.0 - 2016
+ * <p>Template matching recognition process.</p>
+ */
+
 public class TemplateMatchManager {
 
 

@@ -87,7 +87,7 @@ public class ImageManager {
 		byte[] imageInBytes = Converter.matToByte(newImageWithRectangle);
 		BufferedImage bi = Converter.byteToBufferedImage(imageInBytes);
 		//BufferedImage bi = Converter.matToBufferedImage(newImageWithRectangle);
-		*/
+		 */
 		return null;
 	}
 

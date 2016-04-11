@@ -167,9 +167,9 @@ public class Converter {
 		} catch (org.bytedeco.javacv.FrameGrabber.Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		while (true) {
-			
+
 			try {
 				Frame frame = grabber.grabImage();
 				if (frame == null) {       
@@ -178,24 +178,24 @@ public class Converter {
 
 				// Splite images by range
 				if (range == currentFrame) {
-				try {
-					BufferedImage image = Converter.javacvFrameToBufferedImage(frame);
-					ImageIO.write(image, "jpg", new File(framesDestination.getAbsolutePath() + "\\" + DateManager.getDate() + " " + totalFrames + ".jpg"));
-					currentFrame = 0;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						BufferedImage image = Converter.javacvFrameToBufferedImage(frame);
+						ImageIO.write(image, "jpg", new File(framesDestination.getAbsolutePath() + "\\" + DateManager.getDate() + " " + totalFrames + ".jpg"));
+						currentFrame = 0;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				}
-				
-							} catch (org.bytedeco.javacv.FrameGrabber.Exception e) {
+
+			} catch (org.bytedeco.javacv.FrameGrabber.Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			totalFrames += 1;
 			currentFrame += 1;				
 		}
-		
+
 	}
 
 	public static BufferedImage javacvFrameToBufferedImage(Frame frame) {
@@ -209,13 +209,13 @@ public class Converter {
 		Mat image = Imgcodecs.imread(img);
 		for (int i=0; i<50; i++) {
 			for (int j=0; j<50; j++) {
-System.out.println("Pixel: " + i + " " + j);
+				System.out.println("Pixel: " + i + " " + j);
 				double[] temp = image.get(i, j);
-for (int k=0; k<temp.length; k++) {
-	System.out.println(temp[k]);
-}
+				for (int k=0; k<temp.length; k++) {
+					System.out.println(temp[k]);
+				}
 			}
 		}
-		 }
-
 	}
+
+}

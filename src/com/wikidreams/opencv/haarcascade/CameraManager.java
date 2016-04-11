@@ -7,7 +7,7 @@ import org.opencv.videoio.VideoCapture;
 /**
  * @author WIT Software - Daniel Vieira
  * @version 1.0 - 2016
- * <p>This class is responsable for the recognition process on video files.</p>
+ * <p>This class is responsable for the recognition process using the web cam.</p>
  */
 
 public class CameraManager {

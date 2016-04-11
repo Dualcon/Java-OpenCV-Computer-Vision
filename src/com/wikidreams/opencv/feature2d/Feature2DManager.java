@@ -1,17 +1,11 @@
 package com.wikidreams.opencv.feature2d;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.apache.log4j.Logger;
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.DMatch;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -23,7 +17,12 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+
+/**
+ * @author WIT Software - Daniel Vieira
+ * @version 1.0 - 2016
+ * <p>Feature2D recognition process.</p>
+ */
 
 public class Feature2DManager {
 
@@ -33,38 +32,6 @@ public class Feature2DManager {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 
-
-	public static Mat fileToMat(File file) {
-		try {
-			Mat mat = new Mat();
-			BufferedImage image = ImageIO.read(file);	
-			byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-			mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
-			mat.put(0, 0, data);
-			return mat;
-		} catch (IOException e) {
-			Feature2DManager.logger.error(e.getMessage());			
-		}
-		return null;
-	}
-
-	public static void matToFile(Mat mat, File file) {
-		try {
-			byte[] data = new byte[mat.rows() * mat.cols() * (int)(mat.elemSize())];
-			mat.get(0, 0, data);
-			BufferedImage image1 = new BufferedImage(mat.cols(),mat.rows(), BufferedImage.TYPE_3BYTE_BGR);
-			image1.getRaster().setDataElements(0, 0, mat.cols(), mat.rows(), data);
-			ImageIO.write(image1, "jpg", file);
-		} catch (IOException e) {
-			Feature2DManager.logger.error(e.getMessage());
-		}
-	}
-
-	public static Mat toGrayScale(Mat mat) {
-		Mat matGray = new Mat(); 
-		Imgproc.cvtColor(mat, matGray, Imgproc.COLOR_RGB2GRAY);
-		return matGray;	
-	}
 
 	public static Feature2DData detect(File image) {
 		Mat mat = Imgcodecs.imread(image.getAbsolutePath());
@@ -77,6 +44,8 @@ public class Feature2DManager {
 		System.out.println("Keypoints: " + keypoints.toArray().length + " Descriptors: " + descriptors);
 		return new Feature2DData(keypoints, descriptors);
 	}
+
+
 
 	public static MatOfDMatch getMatches(Mat descriptor1, Mat descriptor2) {
 		DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);

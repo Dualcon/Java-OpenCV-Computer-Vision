@@ -2,6 +2,12 @@ package com.wikidreams.image;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * @author WIT Software - Daniel Vieira
+ * @version 1.0 - 2016
+ * <p>This class is responsible to create some transformations on images Like rotations.</p>
+ */
+
 public class ImageRotation {
 
 
