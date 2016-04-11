@@ -12,16 +12,34 @@ import org.opencv.imgproc.Imgproc;
 public class TemplateMatchManager {
 
 
+
 	public static void run(String inFile, String templateFile, String outFile, int match_method) {
 		Mat img = Imgcodecs.imread(inFile, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
 		Mat templ = Imgcodecs.imread(templateFile, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
-		
+
 		if ((img.cols() != templ.cols()) && (img.rows() != templ.rows())) {
 			System.out.println("the images must have the same dimensions.");
 			return;
 		}
-		
+
 		Mat imgDisplay = img.clone();
+
+		// Choose from the diferent methods type.
+		int method;
+		switch (match_method) {
+		case 1: method = Imgproc.TM_CCOEFF; // Correlation coefficient
+		break;
+		case 2: method = Imgproc.TM_CCORR; // Cross correlation
+		break;
+		case 3: method = Imgproc.TM_CCORR_NORMED; // Normalized cross correlation
+		break;
+		case 4: method = Imgproc.TM_SQDIFF; // Squared difference
+		break;
+		case 5: method = Imgproc.TM_SQDIFF_NORMED; // Normalized squared difference 
+		break;
+		default: method = Imgproc.TM_CCOEFF_NORMED; // Normalized correlation coefficient (NCC - Fast Normalized Cross-Correlation)
+		break;
+		}
 
 		// / Create the result matrix
 		int result_cols = img.cols() - templ.cols() + 1;
@@ -29,7 +47,7 @@ public class TemplateMatchManager {
 		Mat result = new Mat(result_rows, result_cols, CvType.CV_32FC1);
 
 		// / Do the Matching and Normalize
-		Imgproc.matchTemplate(img, templ, result, match_method);
+		Imgproc.matchTemplate(img, templ, result, method);
 		Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
 
 		// Localizing the best match with minMaxLoc.
