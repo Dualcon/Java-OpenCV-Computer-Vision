@@ -1,6 +1,5 @@
 package com.wikidreams.opencv.haarcascade;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
@@ -15,10 +14,6 @@ import org.opencv.objdetect.CascadeClassifier;
  */
 
 public class Classifier {
-
-	static{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
 
 	public static MatOfRect classifyImage(CascadeClassifier classifier, Mat image) {
 		Mat mRgba = new Mat();  

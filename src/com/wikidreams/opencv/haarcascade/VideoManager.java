@@ -14,7 +14,6 @@ import org.bytedeco.javacpp.opencv_objdetect;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
-import org.opencv.core.Core;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfRect;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -29,10 +28,6 @@ import org.opencv.imgproc.Imgproc;
 public class VideoManager {
 
 	private Logger logger = Logger.getLogger(VideoManager.class);
-
-	static{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
 
 	private long startDuration;
 	private long endDuration;

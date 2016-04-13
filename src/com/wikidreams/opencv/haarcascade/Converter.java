@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -32,11 +31,6 @@ import com.wikidreams.utils.dates.DateManager;
 public class Converter {
 
 	private static Logger logger = Logger.getLogger(Converter.class);
-
-	static{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
-
 
 	public static Mat fileToMat(String imageFilePath) {
 		Mat image = Imgcodecs.imread(imageFilePath); 
@@ -183,7 +177,6 @@ public class Converter {
 						ImageIO.write(image, "jpg", new File(framesDestination.getAbsolutePath() + "\\" + DateManager.getDate() + " " + totalFrames + ".jpg"));
 						currentFrame = 0;
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

@@ -78,17 +78,11 @@ public class ImageManager {
 	}
 
 	public BufferedImage getImageWithDetectedObjects() {
-		// TODO Auto-generated method stub
-		/*
-		// Design a rectangle into detected object
-		Mat newImageWithRectangle = new Mat(); 
-		newImageWithRectangle = Classifier.createRectangle(im.getDetections(), im.getOriginalImage());
-		// Save image on file system
-		byte[] imageInBytes = Converter.matToByte(newImageWithRectangle);
+		Mat imageWithRectangle = new Mat();
+		imageWithRectangle = Classifier.createRectangle(this.detections, this.originalImage);
+		byte[] imageInBytes = Converter.matToByte(imageWithRectangle);
 		BufferedImage bi = Converter.byteToBufferedImage(imageInBytes);
-		//BufferedImage bi = Converter.matToBufferedImage(newImageWithRectangle);
-		 */
-		return null;
+		return bi;
 	}
 
 }

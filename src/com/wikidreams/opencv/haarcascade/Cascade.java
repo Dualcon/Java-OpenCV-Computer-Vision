@@ -1,7 +1,6 @@
 package com.wikidreams.opencv.haarcascade;
 
 import org.apache.log4j.Logger;
-import org.opencv.core.Core;
 import org.opencv.objdetect.CascadeClassifier;
 
 /**
@@ -12,10 +11,6 @@ import org.opencv.objdetect.CascadeClassifier;
 public class Cascade {
 
 	private Logger logger = Logger.getLogger(Cascade.class);
-
-	static{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
 
 	private CascadeClassifier cascadeClassifier; // OpenCV cascade classifier
 	private String path;

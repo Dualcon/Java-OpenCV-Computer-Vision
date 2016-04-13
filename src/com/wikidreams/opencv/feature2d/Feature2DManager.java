@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.opencv.core.Core;
 import org.opencv.core.DMatch;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -27,11 +26,6 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class Feature2DManager {
 
 	private static Logger logger = Logger.getLogger(Feature2DManager.class); 	
-
-	static{
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
-
 
 	public static Feature2DData detect(File image) {
 		Mat mat = Imgcodecs.imread(image.getAbsolutePath());
