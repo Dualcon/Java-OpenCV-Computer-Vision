@@ -46,6 +46,17 @@ public class ImageManager {
 		this.run();
 	}
 
+	public ImageManager(Cascade classifier, BufferedImage image) {
+		this.classifier = classifier;
+		byte[] imageInBytes = Converter.bufferedImageToByte(image);
+		this.originalImage = Converter.byteToMat(imageInBytes);
+		this.startDuration = 0;
+		this.endDuration = 0;
+		this.totalDuration = 0;
+		this.totalDetections = 0;
+		this.run();
+	}
+
 	private void run() {
 		this.startDuration = System.nanoTime();
 		this.process();
