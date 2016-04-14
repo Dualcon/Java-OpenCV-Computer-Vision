@@ -95,7 +95,6 @@ public class ImageTransformation {
 			double hr = originalImage.getHeight() * scaleRatio;
 			int w = (int) wr;
 			int h = (int) hr;
-			System.out.println("New w: " + w + " h: " + h);
 			scaledBI = ImageTransformation.scaleImage(originalImage, w, h);
 		}
 		return scaledBI;
