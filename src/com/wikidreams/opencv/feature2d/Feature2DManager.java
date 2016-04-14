@@ -30,6 +30,7 @@ public class Feature2DManager {
 
 	private static Logger logger = Logger.getLogger(Feature2DManager.class); 	
 
+
 	public static Feature2DData getKeypoints(BufferedImage image) {
 		byte[] imageInbytes = Converter.bufferedImageToByte(image);
 		Mat mat = Converter.byteToMat(imageInbytes); 
@@ -94,19 +95,43 @@ public class Feature2DManager {
 	public static BufferedImage drawMatches(File image1, MatOfKeyPoint keypoints1, File image2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, int flag) {
 		Mat img1 = Imgcodecs.imread(image1.getAbsolutePath());
 		Mat img2 = Imgcodecs.imread(image2.getAbsolutePath());
-		
+
 		int drawMode;
 		switch (flag) {
 		case 1: drawMode = Features2d.DRAW_OVER_OUTIMG; // Output image matrix will not be created (using Mat::create). Matches will be drawn on existing content of output image.
 		break;
 		case 2: drawMode = Features2d.NOT_DRAW_SINGLE_POINTS; // Single keypoints will not be drawn.
-			break;
+		break;
 		case 3: drawMode = Features2d.DRAW_RICH_KEYPOINTS; // For each keypoint, the circle around keypoint with keypoint size and orientation will be drawn.
 		break;
-			default: drawMode = 0; // Output image matrix will be created (Mat::create), i.e. existing memory of output image may be reused. Two source images, matches, and single keypoints will be drawn. For each keypoint, only the center point will be drawn (without a circle around the keypoint with the keypoint size and orientation).
-			break;
+		default: drawMode = 0; // Output image matrix will be created (Mat::create), i.e. existing memory of output image may be reused. Two source images, matches, and single keypoints will be drawn. For each keypoint, only the center point will be drawn (without a circle around the keypoint with the keypoint size and orientation).
+		break;
 		}
-		
+
+		Mat outImg = new Mat();
+		Features2d.drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, new Scalar(0, 255, 0), new Scalar(0, 0, 255), new MatOfByte(), drawMode);
+		byte[] imageInBytes = Converter.matToByte(outImg);
+		return Converter.byteToBufferedImage(imageInBytes);
+	}
+
+	public static BufferedImage drawMatches(BufferedImage image1, MatOfKeyPoint keypoints1, BufferedImage image2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, int flag) {
+		byte[] image1InBytes = Converter.bufferedImageToByte(image1);
+		Mat img1 = Converter.byteToMat(image1InBytes);
+		byte[] image2Inbytes = Converter.bufferedImageToByte(image2);
+		Mat img2 = Converter.byteToMat(image2Inbytes);
+
+		int drawMode;
+		switch (flag) {
+		case 1: drawMode = Features2d.DRAW_OVER_OUTIMG; // Output image matrix will not be created (using Mat::create). Matches will be drawn on existing content of output image.
+		break;
+		case 2: drawMode = Features2d.NOT_DRAW_SINGLE_POINTS; // Single keypoints will not be drawn.
+		break;
+		case 3: drawMode = Features2d.DRAW_RICH_KEYPOINTS; // For each keypoint, the circle around keypoint with keypoint size and orientation will be drawn.
+		break;
+		default: drawMode = 0; // Output image matrix will be created (Mat::create), i.e. existing memory of output image may be reused. Two source images, matches, and single keypoints will be drawn. For each keypoint, only the center point will be drawn (without a circle around the keypoint with the keypoint size and orientation).
+		break;
+		}
+
 		Mat outImg = new Mat();
 		Features2d.drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, new Scalar(0, 255, 0), new Scalar(0, 0, 255), new MatOfByte(), drawMode);
 		byte[] imageInBytes = Converter.matToByte(outImg);
