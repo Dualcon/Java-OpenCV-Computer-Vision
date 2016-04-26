@@ -24,6 +24,7 @@ import com.wikidreams.opencv.feature2d.Feature2DManager;
 import com.wikidreams.opencv.haarcascade.Cascade;
 import com.wikidreams.opencv.haarcascade.Classifier;
 import com.wikidreams.opencv.haarcascade.Converter;
+import com.wikidreams.opencv.templatematching.TemplateMatchManager;
 
 /**
  * @author WIT Software - Daniel Vieira
@@ -57,7 +58,7 @@ public class VideoPlayerManager {
 		}
 	}
 
-	public VideoPlayerManager(String frameTitle, File image, File video) {
+	public VideoPlayerManager(String frameTitle, File image, File video, int recognitionMethod) {
 		super();
 		this.frameTitle = frameTitle;
 		if (image.exists() && video.exists()) {
@@ -66,9 +67,14 @@ public class VideoPlayerManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			this.fData1 = Feature2DManager.getKeypoints(this.image);
+
+			if (recognitionMethod  == 1) {
+				this.processType = 1; // Recognition using Feature2D.
+				this.fData1 = Feature2DManager.getKeypoints(this.image);	
+			} else if (recognitionMethod == 2) {
+				this.processType = 2; // Recognition using template matching.
+			}
 			this.video = video;
-			this.processType = 1; // Recognition using Feature2D.
 			this.run();
 		}
 	}
@@ -100,7 +106,11 @@ public class VideoPlayerManager {
 
 						// Choose recognition method.
 						switch (processType) {
-						case 1: feature2DRecognition(frame);
+						case 1: processType = 1;
+						feature2DRecognition(frame);
+						break;
+						case 2: processType = 2;
+						templateMatchingRecognition(frame);
 						break;
 						default: haarCascadeRecognition(frame);
 						break;
@@ -185,6 +195,13 @@ public class VideoPlayerManager {
 		this.displayOnFrame(output);
 	}
 
+
+
+	private void templateMatchingRecognition(Frame frame) {
+		BufferedImage image = Converter.javacvFrameToBufferedImage(frame);
+		BufferedImage result = TemplateMatchManager.run(image, this.image, 2);
+		this.displayOnFrame(result);
+	}
 
 	private void displayOnFrame(BufferedImage image) {
 		this.canvas.setCanvasSize(image.getWidth(), image.getHeight());

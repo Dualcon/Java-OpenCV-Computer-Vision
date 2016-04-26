@@ -132,7 +132,7 @@ public class Feature2DManager {
 		break;
 		}
 
-		Mat outImg = new Mat();
+		Mat outImg= img2.clone(); 
 		Features2d.drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, new Scalar(0, 255, 0), new Scalar(0, 0, 255), new MatOfByte(), drawMode);
 		byte[] imageInBytes = Converter.matToByte(outImg);
 		return Converter.byteToBufferedImage(imageInBytes);

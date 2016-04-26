@@ -152,4 +152,9 @@ public class Converter {
 		}
 	}
 
+	public static Mat toGrayscale(String img) {
+		Mat image = Imgcodecs.imread(img, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+		return image;
+	}
+
 }
