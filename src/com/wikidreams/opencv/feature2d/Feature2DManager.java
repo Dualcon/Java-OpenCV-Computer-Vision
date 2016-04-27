@@ -23,7 +23,7 @@ import com.wikidreams.opencv.haarcascade.Converter;
 /**
  * @author WIT Software - Daniel Vieira
  * @version 1.0 - 2016
- * <p>Feature2D recognition process.</p>
+ * <p>Feature2D recognition process. This is a recognition process based in corner dectection.</p>
  */
 
 public class Feature2DManager {

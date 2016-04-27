@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 /**
  * @author WIT Software - Daniel Vieira
  * @version 1.0 - 2016
- * <p>This class is responsible to create some transformations on images Like rotations or scales.</p>
+ * <p>Use this class to apply some transformations on images Like rotations or scales.</p>
  */
 
 public class ImageTransformation {

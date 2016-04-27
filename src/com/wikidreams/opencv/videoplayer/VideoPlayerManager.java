@@ -29,7 +29,7 @@ import com.wikidreams.opencv.templatematching.TemplateMatchManager;
 /**
  * @author WIT Software - Daniel Vieira
  * @version 1.0 - 2016
- * <p>This class allows play video contents.</p>
+ * <p>This class allows play video contents and use a recognition method.</p>
  */
 
 public class VideoPlayerManager {
