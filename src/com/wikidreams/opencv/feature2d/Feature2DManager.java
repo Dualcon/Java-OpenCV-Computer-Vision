@@ -40,7 +40,7 @@ public class Feature2DManager {
 		Mat descriptors = new Mat();
 		detector.detect(mat, keypoints);
 		extractor.compute(mat, keypoints, descriptors);
-		System.out.println("Keypoints: " + keypoints.toArray().length + " Descriptors: " + descriptors);
+		Feature2DManager.logger.info("Keypoints: " + keypoints.toArray().length + " Descriptors: " + descriptors);
 		return new Feature2DData(keypoints, descriptors);
 	}
 
@@ -50,7 +50,7 @@ public class Feature2DManager {
 		DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
 		MatOfDMatch matches = new MatOfDMatch();
 		matcher.match(descriptor1, descriptor2, matches);
-		System.out.println("matches.size(): " + matches.size());
+		Feature2DManager.logger.info("matches.size(): " + matches.size());
 		return matches;
 	}
 
@@ -64,7 +64,7 @@ public class Feature2DManager {
 			if (dist < min_dist && dist != 0) min_dist = dist;
 			if (dist > max_dist) max_dist = dist;
 		}
-		System.out.println("max_dist=" + max_dist + ", min_dist=" + min_dist);
+		Feature2DManager.logger.info("max_dist=" + max_dist + ", min_dist=" + min_dist);
 
 		double threshold = 3 * min_dist;
 		double threshold2 = 2 * min_dist;
@@ -73,22 +73,22 @@ public class Feature2DManager {
 		} else if (threshold >= max_dist) {
 			threshold = threshold2 * 1.4;
 		}
-		System.out.println("Threshold : "+threshold);
+		Feature2DManager.logger.info("Threshold : "+threshold);
 
 		// Extract good images (distances are under Threshold)
 		MatOfDMatch matchesFiltered = new MatOfDMatch();
 		List<DMatch> bestMatches= new ArrayList<DMatch>();	    
 		for (int i = 0; i < matchesList.size(); i++) {
 			Double dist = (double) matchesList.get(i).distance;
-			//System.out.println(String.format(i + " match distance best : %s", dist));
+			//Feature2DManager.logger.info(String.format(i + " match distance best : %s", dist));
 			if (dist < threshold) {
 				bestMatches.add(matches.toList().get(i));
-				//System.out.println(String.format(i + " best match added : %s", dist));
+				//Feature2DManager.logger.info(String.format(i + " best match added : %s", dist));
 			}
 		}
 
 		matchesFiltered.fromList(bestMatches);
-		System.out.println("matchesFiltered.size() : " + matchesFiltered.size());
+		Feature2DManager.logger.info("matchesFiltered.size() : " + matchesFiltered.size());
 		return matchesFiltered;
 	}
 

@@ -14,13 +14,10 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.opencv.core.MatOfByte;
-import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfRect;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-import com.wikidreams.opencv.feature2d.Feature2DData;
-import com.wikidreams.opencv.feature2d.Feature2DManager;
 import com.wikidreams.opencv.haarcascade.Cascade;
 import com.wikidreams.opencv.haarcascade.Classifier;
 import com.wikidreams.opencv.haarcascade.Converter;
@@ -37,16 +34,12 @@ public class VideoPlayerManager {
 	private String frameTitle;
 	private CanvasFrame canvas;
 	private Frame frame;
-
-
-	private int processType;
 	private File video;
-
 	private Cascade cascade;
-
 	private BufferedImage image;
-	private Feature2DData fData1;
-
+	private int processType;
+private int templateMatchMethod;
+	
 	public VideoPlayerManager(String frameTitle, Cascade cascade, File video) {
 		super();
 		this.frameTitle = frameTitle;
@@ -58,22 +51,18 @@ public class VideoPlayerManager {
 		}
 	}
 
-	public VideoPlayerManager(String frameTitle, File image, File video, int recognitionMethod) {
+	public VideoPlayerManager(String frameTitle, File image, File video, int templateMatchMethod) {
 		super();
 		this.frameTitle = frameTitle;
+		
 		if (image.exists() && video.exists()) {
 			try {
 				this.image = ImageIO.read(image);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			if (recognitionMethod  == 1) {
-				this.processType = 1; // Recognition using Feature2D.
-				this.fData1 = Feature2DManager.getKeypoints(this.image);	
-			} else if (recognitionMethod == 2) {
-				this.processType = 2; // Recognition using template matching.
-			}
+			this.templateMatchMethod = templateMatchMethod;
+			this.processType = 1;
 			this.video = video;
 			this.run();
 		}
@@ -107,9 +96,6 @@ public class VideoPlayerManager {
 						// Choose recognition method.
 						switch (processType) {
 						case 1: processType = 1;
-						feature2DRecognition(frame);
-						break;
-						case 2: processType = 2;
 						templateMatchingRecognition(frame);
 						break;
 						default: haarCascadeRecognition(frame);
@@ -182,24 +168,10 @@ public class VideoPlayerManager {
 	}
 
 
-	private void feature2DRecognition(Frame frame) {
-		// Convert JavaCV frame to BufferedImage.
-		this.frame = frame;
-		BufferedImage videoImage = Converter.javacvFrameToBufferedImage(this.frame);
-
-		// Feature2D recognition.
-		Feature2DData fData2 = Feature2DManager.getKeypoints(videoImage);
-		MatOfDMatch matches = Feature2DManager.getMatches(this.fData1.getDescriptor(), fData2.getDescriptor());
-		MatOfDMatch bestMatches = Feature2DManager.getBestMatches(matches);
-		BufferedImage output = Feature2DManager.drawMatches(this.image, this.fData1.getKeypoints(), videoImage, fData2.getKeypoints(), bestMatches, 0);
-		this.displayOnFrame(output);
-	}
-
-
-
-	private void templateMatchingRecognition(Frame frame) {
+	
+		private void templateMatchingRecognition(Frame frame) {
 		BufferedImage image = Converter.javacvFrameToBufferedImage(frame);
-		BufferedImage result = TemplateMatchManager.run(image, this.image, 2);
+		BufferedImage result = TemplateMatchManager.run(image, this.image, this.templateMatchMethod);
 		this.displayOnFrame(result);
 	}
 
